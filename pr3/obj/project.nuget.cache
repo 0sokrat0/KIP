@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "1XjQK16DBAo=",
+  "success": true,
+  "projectFilePath": "/home/sokrat/Рабочий стол/Dev/KIP/pr3/pr3.csproj",
+  "expectedPackageFiles": [
+    "/home/sokrat/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.8/microsoft.aspnetcore.app.ref.9.0.8.nupkg.sha512"
+  ],
+  "logs": []
+}

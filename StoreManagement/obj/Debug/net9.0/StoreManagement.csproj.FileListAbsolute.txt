@@ -1,0 +1,14 @@
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/bin/Debug/net9.0/StoreManagement
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/bin/Debug/net9.0/StoreManagement.deps.json
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/bin/Debug/net9.0/StoreManagement.runtimeconfig.json
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/bin/Debug/net9.0/StoreManagement.dll
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/bin/Debug/net9.0/StoreManagement.pdb
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/obj/Debug/net9.0/StoreManagement.GeneratedMSBuildEditorConfig.editorconfig
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/obj/Debug/net9.0/StoreManagement.AssemblyInfoInputs.cache
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/obj/Debug/net9.0/StoreManagement.AssemblyInfo.cs
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/obj/Debug/net9.0/StoreManagement.csproj.CoreCompileInputs.cache
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/obj/Debug/net9.0/StoreManagement.dll
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/obj/Debug/net9.0/refint/StoreManagement.dll
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/obj/Debug/net9.0/StoreManagement.pdb
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/obj/Debug/net9.0/StoreManagement.genruntimeconfig.cache
+/home/sokrat/Рабочий стол/Dev/KIP/StoreManagement/obj/Debug/net9.0/ref/StoreManagement.dll

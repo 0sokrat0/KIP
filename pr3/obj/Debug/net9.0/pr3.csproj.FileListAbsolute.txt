@@ -1,0 +1,14 @@
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/bin/Debug/net9.0/pr3
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/bin/Debug/net9.0/pr3.deps.json
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/bin/Debug/net9.0/pr3.runtimeconfig.json
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/bin/Debug/net9.0/pr3.dll
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/bin/Debug/net9.0/pr3.pdb
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/obj/Debug/net9.0/pr3.GeneratedMSBuildEditorConfig.editorconfig
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/obj/Debug/net9.0/pr3.AssemblyInfoInputs.cache
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/obj/Debug/net9.0/pr3.AssemblyInfo.cs
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/obj/Debug/net9.0/pr3.csproj.CoreCompileInputs.cache
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/obj/Debug/net9.0/pr3.dll
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/obj/Debug/net9.0/refint/pr3.dll
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/obj/Debug/net9.0/pr3.pdb
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/obj/Debug/net9.0/pr3.genruntimeconfig.cache
+/home/sokrat/Рабочий стол/Dev/KIP/pr3/obj/Debug/net9.0/ref/pr3.dll

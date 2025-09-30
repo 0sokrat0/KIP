@@ -1,0 +1,14 @@
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/obj/Debug/net9.0/Практическая № 4.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/obj/Debug/net9.0/Практическая № 4.AssemblyInfoInputs.cache
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/obj/Debug/net9.0/Практическая № 4.AssemblyInfo.cs
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/obj/Debug/net9.0/Практическая № 4.csproj.CoreCompileInputs.cache
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/bin/Debug/net9.0/Практическая № 4
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/bin/Debug/net9.0/Практическая № 4.deps.json
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/bin/Debug/net9.0/Практическая № 4.runtimeconfig.json
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/bin/Debug/net9.0/Практическая № 4.dll
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/bin/Debug/net9.0/Практическая № 4.pdb
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/obj/Debug/net9.0/Практическая № 4.dll
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/obj/Debug/net9.0/refint/Практическая № 4.dll
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/obj/Debug/net9.0/Практическая № 4.pdb
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/obj/Debug/net9.0/Практическая № 4.genruntimeconfig.cache
+/Users/sokrat/Desktop/Dev/KIP/Практическая № 4/obj/Debug/net9.0/ref/Практическая № 4.dll
