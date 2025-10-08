@@ -1,0 +1,15 @@
+/Users/sokrat/Desktop/Dev/KIP/pr5/bin/Debug/net9.0/pr5
+/Users/sokrat/Desktop/Dev/KIP/pr5/bin/Debug/net9.0/pr5.deps.json
+/Users/sokrat/Desktop/Dev/KIP/pr5/bin/Debug/net9.0/pr5.runtimeconfig.json
+/Users/sokrat/Desktop/Dev/KIP/pr5/bin/Debug/net9.0/pr5.dll
+/Users/sokrat/Desktop/Dev/KIP/pr5/bin/Debug/net9.0/pr5.pdb
+/Users/sokrat/Desktop/Dev/KIP/pr5/obj/Debug/net9.0/pr5.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sokrat/Desktop/Dev/KIP/pr5/obj/Debug/net9.0/pr5.AssemblyInfoInputs.cache
+/Users/sokrat/Desktop/Dev/KIP/pr5/obj/Debug/net9.0/pr5.AssemblyInfo.cs
+/Users/sokrat/Desktop/Dev/KIP/pr5/obj/Debug/net9.0/pr5.csproj.CoreCompileInputs.cache
+/Users/sokrat/Desktop/Dev/KIP/pr5/obj/Debug/net9.0/pr5.sourcelink.json
+/Users/sokrat/Desktop/Dev/KIP/pr5/obj/Debug/net9.0/pr5.dll
+/Users/sokrat/Desktop/Dev/KIP/pr5/obj/Debug/net9.0/refint/pr5.dll
+/Users/sokrat/Desktop/Dev/KIP/pr5/obj/Debug/net9.0/pr5.pdb
+/Users/sokrat/Desktop/Dev/KIP/pr5/obj/Debug/net9.0/pr5.genruntimeconfig.cache
+/Users/sokrat/Desktop/Dev/KIP/pr5/obj/Debug/net9.0/ref/pr5.dll
