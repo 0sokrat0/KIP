@@ -1,0 +1,15 @@
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/bin/Debug/net9.0/RoguelikeGame
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/bin/Debug/net9.0/RoguelikeGame.deps.json
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/bin/Debug/net9.0/RoguelikeGame.runtimeconfig.json
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/bin/Debug/net9.0/RoguelikeGame.dll
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/bin/Debug/net9.0/RoguelikeGame.pdb
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/obj/Debug/net9.0/RoguelikeGame.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/obj/Debug/net9.0/RoguelikeGame.AssemblyInfoInputs.cache
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/obj/Debug/net9.0/RoguelikeGame.AssemblyInfo.cs
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/obj/Debug/net9.0/RoguelikeGame.csproj.CoreCompileInputs.cache
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/obj/Debug/net9.0/RoguelikeGame.sourcelink.json
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/obj/Debug/net9.0/RoguelikeGame.dll
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/obj/Debug/net9.0/refint/RoguelikeGame.dll
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/obj/Debug/net9.0/RoguelikeGame.pdb
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/obj/Debug/net9.0/RoguelikeGame.genruntimeconfig.cache
+/Users/sokrat/Desktop/Dev/KIP/RoguelikeGame/obj/Debug/net9.0/ref/RoguelikeGame.dll
