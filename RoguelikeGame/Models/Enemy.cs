@@ -97,3 +97,7 @@ public class Mage : Enemy
         return damage;
     }
 }
+
+
+
+
