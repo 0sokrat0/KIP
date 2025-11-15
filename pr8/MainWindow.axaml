@@ -1,0 +1,412 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:pr8.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+        x:Class="pr8.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="GMWOG||GG.MOW||WONGG - Маркетплейс"
+        Width="1200" Height="800"
+        Background="#1E1E1E">
+
+    <Window.Styles>
+        <Style Selector="Button">
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#3D3D3D"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#555555"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="SelectionBrush" Value="#2196F3"/>
+            <Setter Property="SelectionForegroundBrush" Value="White"/>
+            <Setter Property="CaretBrush" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="TextBox:focus">
+            <Setter Property="BorderBrush" Value="#42A5F5"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+        <Style Selector="ComboBox">
+            <Setter Property="Background" Value="#3D3D3D"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto,*" Margin="15">
+        <Border Grid.Row="0" 
+                Background="#2196F3" 
+                CornerRadius="8" 
+                Padding="20,15"
+                Margin="0,0,0,15">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="GMWOG||GG.MOW||WONGG" 
+                               FontSize="24" 
+                               FontWeight="Bold" 
+                               Foreground="White"/>
+                    <TextBlock Text="{Binding CurrentUsername, StringFormat='Пользователь: {0}'}" 
+                               FontSize="14" 
+                               Foreground="White"
+                               Margin="0,5,0,0"
+                               IsVisible="{Binding IsLoggedIn}"/>
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Content="Выход"
+                        Command="{Binding ExitCommand}"
+                        Background="#F44336"
+                        Foreground="White"
+                        Width="100"
+                        Height="35"
+                        CornerRadius="5"/>
+            </Grid>
+        </Border>
+        
+        <TabControl Grid.Row="1">
+            <TabItem Header="Каталог">
+                <Grid ColumnDefinitions="*,300" ColumnSpacing="15" Background="#1E1E1E">
+                    <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Background="#1E1E1E">
+                        <ItemsControl ItemsSource="{Binding Products}" Margin="0,0,0,10">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#2D2D2D" 
+                                            CornerRadius="8" 
+                                            Padding="15" 
+                                            Margin="0,0,0,10"
+                                            BorderBrush="#555555"
+                                            BorderThickness="2"
+                                            BoxShadow="0 2 8 0 #40000000">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                                                <TextBlock Text="{Binding Name}" 
+                                                           FontSize="16" 
+                                                           FontWeight="Bold"
+                                                           Foreground="#FFFFFF"/>
+                                                <TextBlock Text="{Binding Description}" 
+                                                           FontSize="12"
+                                                           Foreground="#B0B0B0"
+                                                           Margin="0,5,0,0"
+                                                           TextWrapping="Wrap"/>
+                                                <TextBlock Text="{Binding Price, StringFormat='Цена: {0:F2} руб.'}" 
+                                                           FontSize="14"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="#81C784"
+                                                           Margin="0,10,0,0"/>
+                                                <TextBlock Text="{Binding Stock, StringFormat='В наличии: {0} шт.'}" 
+                                                           FontSize="12"
+                                                           Foreground="#FFB74D"
+                                                           Margin="0,5,0,0"/>
+                                                <TextBlock Text="{Binding Id, StringFormat='ID: {0}'}" 
+                                                           FontSize="12"
+                                                           Foreground="#9E9E9E"
+                                                           Margin="0,5,0,0"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    
+                    <Border Grid.Column="1" 
+                            Background="#2D2D2D" 
+                            CornerRadius="8" 
+                            Padding="15"
+                            BorderBrush="#555555"
+                            BorderThickness="2"
+                            BoxShadow="0 2 8 0 #40000000">
+                        <StackPanel Spacing="10">
+                            <StackPanel Spacing="10" IsVisible="{Binding IsLoggedIn}">
+                                <TextBlock Text="Добавить в корзину" 
+                                           FontSize="14" 
+                                           FontWeight="Bold"
+                                           Foreground="#FFFFFF"/>
+                                <TextBox Text="{Binding SelectedProductId}" 
+                                         Watermark="ID товара"
+                                         Height="40"/>
+                                <TextBox Text="{Binding Quantity}" 
+                                         Watermark="Количество"
+                                         Height="40"/>
+                                <Button Content="Добавить в корзину"
+                                        Command="{Binding AddToCartCommand}"
+                                        Background="#4CAF50"
+                                        Foreground="White"
+                                        Height="40"/>
+                                <Separator Margin="0,10"/>
+                                <TextBlock Text="Купить сразу" 
+                                           FontSize="14" 
+                                           FontWeight="Bold"
+                                           Foreground="#FFFFFF"/>
+                                <ComboBox ItemsSource="{Binding PickupPoints}"
+                                          SelectedItem="{Binding SelectedPickupPoint}"
+                                          Height="40">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" Foreground="#E0E0E0"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button Content="Купить"
+                                        Command="{Binding BuySingleItemCommand}"
+                                        Background="#FF9800"
+                                        Foreground="White"
+                                        Height="40"/>
+                            </StackPanel>
+                            <TextBlock Text="Войдите в систему для добавления товаров в корзину"
+                                       FontSize="12"
+                                       Foreground="#B0B0B0"
+                                       TextWrapping="Wrap"
+                                       IsVisible="{Binding !IsLoggedIn}"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Авторизация" IsVisible="{Binding !IsLoggedIn}">
+                <Grid RowDefinitions="Auto,*" Margin="20">
+                    <Border Grid.Row="0"
+                            Background="{Binding StatusBackgroundColor}"
+                            CornerRadius="8"
+                            Padding="15"
+                            Margin="0,0,0,20"
+                            IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                        <TextBlock Text="{Binding StatusMessage}"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   TextWrapping="Wrap"/>
+                    </Border>
+                    
+                    <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="20">
+                        <Border Grid.Column="0" 
+                                Background="#2D2D2D" 
+                                CornerRadius="8" 
+                                Padding="20"
+                                BorderBrush="#555555"
+                                BorderThickness="2"
+                                BoxShadow="0 2 8 0 #40000000">
+                            <StackPanel Spacing="15">
+                                <TextBlock Text="Регистрация" 
+                                           FontSize="18" 
+                                           FontWeight="Bold"
+                                           Foreground="#FFFFFF"/>
+                                <TextBox Text="{Binding Username}" 
+                                         Watermark="Имя пользователя"
+                                         Height="40"/>
+                                <TextBox Text="{Binding Password}" 
+                                         Watermark="Пароль"
+                                         PasswordChar="*"
+                                         Height="40"/>
+                                <TextBox Text="{Binding ConfirmPassword}" 
+                                         Watermark="Подтвердите пароль"
+                                         PasswordChar="*"
+                                         Height="40"/>
+                                <Button Content="Зарегистрироваться"
+                                        Command="{Binding RegisterCommand}"
+                                        Background="#4CAF50"
+                                        Foreground="White"
+                                        Height="45"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Border>
+                        
+                        <Border Grid.Column="1" 
+                                Background="#2D2D2D" 
+                                CornerRadius="8" 
+                                Padding="20"
+                                BorderBrush="#555555"
+                                BorderThickness="2"
+                                BoxShadow="0 2 8 0 #40000000">
+                            <StackPanel Spacing="15">
+                                <TextBlock Text="Вход" 
+                                           FontSize="18" 
+                                           FontWeight="Bold"
+                                           Foreground="#FFFFFF"/>
+                                <TextBox Text="{Binding LoginUsername}" 
+                                         Watermark="Имя пользователя"
+                                         Height="40"/>
+                                <TextBox Text="{Binding LoginPassword}" 
+                                         Watermark="Пароль"
+                                         PasswordChar="*"
+                                         Height="40"/>
+                                <Button Content="Войти"
+                                        Command="{Binding LoginCommand}"
+                                        Background="#2196F3"
+                                        Foreground="White"
+                                        Height="45"
+                                        FontSize="14"
+                                        FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Корзина" IsVisible="{Binding IsLoggedIn}">
+                <Grid RowDefinitions="Auto,*" Margin="10" Background="#1E1E1E">
+                    <Button Grid.Row="0"
+                            Content="Обновить корзину"
+                            Command="{Binding LoadCartCommand}"
+                            HorizontalAlignment="Right"
+                            Background="#03A9F4"
+                            Foreground="White"
+                            Width="150"
+                            Height="35"
+                            Margin="0,0,0,10"/>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Background="#1E1E1E">
+                        <StackPanel Spacing="10">
+                            <ItemsControl ItemsSource="{Binding CartItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="#2D2D2D" 
+                                                CornerRadius="8" 
+                                                Padding="15" 
+                                                Margin="0,0,0,10"
+                                                BorderBrush="#555555"
+                                                BorderThickness="2"
+                                                BoxShadow="0 2 8 0 #40000000">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="{Binding ProductName}" 
+                                                               FontSize="14" 
+                                                               FontWeight="Bold"
+                                                               Foreground="#FFFFFF"/>
+                                                    <TextBlock Text="{Binding Price, StringFormat='Цена: {0:F2} руб.'}" 
+                                                               FontSize="12"
+                                                               Foreground="#B0B0B0"/>
+                                                    <TextBlock Text="{Binding Quantity, StringFormat='Количество: {0} шт.'}" 
+                                                               FontSize="12"
+                                                               Foreground="#B0B0B0"/>
+                                                    <TextBlock Text="{Binding Total, StringFormat='Итого: {0:F2} руб.'}" 
+                                                               FontSize="14" 
+                                                               FontWeight="SemiBold"
+                                                               Foreground="#81C784"/>
+                                                </StackPanel>
+                                                <Button Grid.Column="1"
+                                                        Content="Удалить"
+                                                        Click="RemoveFromCartButton_Click"
+                                                        Tag="{Binding ProductId}"
+                                                        Background="#F44336"
+                                                        Foreground="White"
+                                                        Width="100"
+                                                        Height="35"
+                                                        Margin="10,0"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            
+                            <Border Background="#1565C0" 
+                                    CornerRadius="8" 
+                                    Padding="15"
+                                    Margin="0,10,0,0"
+                                    BorderBrush="#42A5F5"
+                                    BorderThickness="2"
+                                    BoxShadow="0 2 8 0 #40000000">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding CartTotal, StringFormat='Общая сумма: {0:F2} руб.'}" 
+                                               FontSize="18" 
+                                               FontWeight="Bold"
+                                               Foreground="#FFFFFF"/>
+                                    <StackPanel Grid.Column="1" Spacing="10">
+                                        <ComboBox ItemsSource="{Binding PickupPoints}"
+                                                  SelectedItem="{Binding SelectedPickupPoint}"
+                                                  Width="250"
+                                                  Height="40">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Name}" Foreground="#E0E0E0"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button Content="Оформить заказ"
+                                                Command="{Binding BuyCartCommand}"
+                                                Background="#4CAF50"
+                                                Foreground="White"
+                                                Width="250"
+                                                Height="45"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Мои заказы" IsVisible="{Binding IsLoggedIn}">
+                <Grid RowDefinitions="Auto,*" Margin="10" Background="#1E1E1E">
+                    <StackPanel Grid.Row="0" 
+                                Orientation="Horizontal" 
+                                Spacing="10"
+                                Margin="0,0,0,10">
+                        <Button Content="Обновить"
+                                Command="{Binding LoadOrdersCommand}"
+                                Background="#03A9F4"
+                                Foreground="White"
+                                Width="120"
+                                Height="35"/>
+                        <CheckBox Content="Сначала новые"
+                                  IsChecked="{Binding OrdersAscending}"
+                                  Foreground="#E0E0E0"/>
+                    </StackPanel>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Background="#1E1E1E">
+                        <ItemsControl ItemsSource="{Binding Orders}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#2D2D2D" 
+                                            CornerRadius="8" 
+                                            Padding="15" 
+                                            Margin="0,0,0,10"
+                                            BorderBrush="#555555"
+                                            BorderThickness="2"
+                                            BoxShadow="0 2 8 0 #40000000">
+                                        <StackPanel Spacing="8">
+                                            <TextBlock FontSize="16" 
+                                                       FontWeight="Bold"
+                                                       Foreground="#FFFFFF">
+                                                <Run Text="Заказ №"/>
+                                                <Run Text="{Binding Id}"/>
+                                                <Run Text=" от "/>
+                                                <Run>
+                                                    <Run.Text>
+                                                        <Binding Path="OrderDate" StringFormat="dd.MM.yyyy HH:mm"/>
+                                                    </Run.Text>
+                                                </Run>
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding PickupPointName, StringFormat='ПВЗ: {0}'}" 
+                                                       FontSize="14"
+                                                       Foreground="#E0E0E0"/>
+                                            <TextBlock Text="{Binding TotalAmount, StringFormat='Сумма: {0:F2} руб.'}" 
+                                                       FontSize="14" 
+                                                       FontWeight="SemiBold"
+                                                       Foreground="#81C784"/>
+                                            <ItemsControl ItemsSource="{Binding Items}" Margin="10,5,0,0">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding}" 
+                                                                   FontSize="12"
+                                                                   Foreground="#B0B0B0"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

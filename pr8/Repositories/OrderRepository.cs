@@ -38,7 +38,7 @@ public class OrderRepository : IOrderRepository
         return null;
     }
     
-    public List<Order> GetByUserId(int userId)
+    public List<Order> GetByUserId(int userId, bool ascending = true)
     {
         var orders = new List<Order>();
         
@@ -46,7 +46,8 @@ public class OrderRepository : IOrderRepository
         connection.Open();
         
         using var command = connection.CreateCommand();
-        command.CommandText = "SELECT Id, UserId, PickupPointId, OrderDate, TotalAmount FROM Orders WHERE UserId = @UserId";
+        var orderBy = ascending ? "ASC" : "DESC";
+        command.CommandText = $"SELECT Id, UserId, PickupPointId, OrderDate, TotalAmount FROM Orders WHERE UserId = @UserId ORDER BY OrderDate {orderBy}";
         command.Parameters.AddWithValue("@UserId", userId);
         
         using var reader = command.ExecuteReader();
@@ -84,39 +85,6 @@ public class OrderRepository : IOrderRepository
         
         command.CommandText = "SELECT last_insert_rowid()";
         order.Id = Convert.ToInt32(command.ExecuteScalar());
-    }
-    
-    public void Update(Order order)
-    {
-        if (order.TotalAmount < 0)
-            throw new ArgumentException("Сумма заказа не может быть отрицательной");
-        
-        using var connection = _dbContext.GetConnection();
-        connection.Open();
-        
-        using var command = connection.CreateCommand();
-        command.CommandText = "UPDATE Orders SET UserId = @UserId, PickupPointId = @PickupPointId, OrderDate = @OrderDate, TotalAmount = @TotalAmount WHERE Id = @Id";
-        command.Parameters.AddWithValue("@Id", order.Id);
-        command.Parameters.AddWithValue("@UserId", order.UserId);
-        command.Parameters.AddWithValue("@PickupPointId", order.PickupPointId);
-        command.Parameters.AddWithValue("@OrderDate", order.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"));
-        command.Parameters.AddWithValue("@TotalAmount", order.TotalAmount);
-        
-        if (command.ExecuteNonQuery() == 0)
-            throw new KeyNotFoundException($"Заказ с Id {order.Id} не найден");
-    }
-    
-    public void Delete(int id)
-    {
-        using var connection = _dbContext.GetConnection();
-        connection.Open();
-        
-        using var command = connection.CreateCommand();
-        command.CommandText = "DELETE FROM Orders WHERE Id = @Id";
-        command.Parameters.AddWithValue("@Id", id);
-        
-        if (command.ExecuteNonQuery() == 0)
-            throw new KeyNotFoundException($"Заказ с Id {id} не найден");
     }
 }
 

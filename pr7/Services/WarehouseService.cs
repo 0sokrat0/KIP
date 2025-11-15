@@ -4,7 +4,7 @@ using pr7.Repositories;
 
 namespace pr7.Services;
 
-public class WarehouseService
+public class WarehouseService : IWarehouseService
 {
     private readonly IWarehouseRepository _warehouseRepository;
     private int _carsProcessed = 0;

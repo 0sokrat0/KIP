@@ -3,7 +3,7 @@ using pr7.Repositories;
 
 namespace pr7.Services;
 
-public class ClientService
+public class ClientService : IClientService
 {
     private readonly IPartRepository _partRepository;
     private readonly ICarRepository _carRepository;

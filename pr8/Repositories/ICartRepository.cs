@@ -4,10 +4,11 @@ namespace pr8.Repositories;
 
 public interface ICartRepository
 {
-    Cart? GetByUserId(int userId);
-    Cart? GetById(int id);
-    void Add(Cart cart);
-    void Update(Cart cart);
+    List<CartItem> GetByUserId(int userId);
+    CartItem? GetByUserAndProduct(int userId, int productId);
+    void Add(CartItem item);
+    void Update(CartItem item);
     void Delete(int id);
+    void ClearUserCart(int userId);
 }
 

@@ -1,0 +1,232 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:pr7.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+        x:Class="pr7.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="АВТОСЕРВИС - Управление"
+        Width="1000" Height="750"
+        Background="#1E1E1E">
+
+    <Window.Styles>
+        <Style Selector="Button">
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="#3D3D3D"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#555555"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="SelectionBrush" Value="#2196F3"/>
+            <Setter Property="SelectionForegroundBrush" Value="White"/>
+            <Setter Property="CaretBrush" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="TextBox:focus">
+            <Setter Property="BorderBrush" Value="#42A5F5"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+        <Style Selector="TextBlock">
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="Auto,*" Margin="15">
+        <!-- Заголовок -->
+        <Border Grid.Row="0" 
+                Background="#2196F3" 
+                CornerRadius="8" 
+                Padding="20,15"
+                Margin="0,0,0,15">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="АВТОСЕРВИС" 
+                               FontSize="28" 
+                               FontWeight="Bold" 
+                               Foreground="White"/>
+                    <TextBlock Text="{Binding BalanceText}" 
+                               FontSize="18" 
+                               Foreground="White"
+                               Margin="0,5,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+        <Grid Grid.Row="1" ColumnDefinitions="280,*" ColumnSpacing="15">
+            <!-- Левая панель с кнопками -->
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="12">
+                    <!-- Основные действия -->
+                    <Border Background="#2D2D2D" CornerRadius="8" Padding="12" Margin="0,0,0,5" BorderBrush="#555555" BorderThickness="2" BoxShadow="0 2 8 0 #40000000">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Основные действия" 
+                                       FontSize="14" 
+                                       FontWeight="Bold"
+                                       Foreground="#FFFFFF"
+                                       Margin="0,0,0,5"/>
+                            
+                            <Button Content="Принять нового клиента" 
+                                    Command="{Binding ProcessNewClientCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Height="45"
+                                    FontSize="13"
+                                    Background="#4CAF50"
+                                    Foreground="White"
+                                    CornerRadius="5"/>
+                            
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="8" IsVisible="{Binding HasPendingOrder}">
+                                <Button Grid.Column="0"
+                                        Content="Принять заказ" 
+                                        Command="{Binding AcceptOrderCommand}"
+                                        HorizontalAlignment="Stretch"
+                                        Height="40"
+                                        FontSize="12"
+                                        Background="#2196F3"
+                                        Foreground="White"
+                                        CornerRadius="5"/>
+                                <Button Grid.Column="1"
+                                        Content="Отказать" 
+                                        Command="{Binding RejectOrderCommand}"
+                                        HorizontalAlignment="Stretch"
+                                        Height="40"
+                                        FontSize="12"
+                                        Background="#F44336"
+                                        Foreground="White"
+                                        CornerRadius="5"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Информация -->
+                    <Border Background="#2D2D2D" CornerRadius="8" Padding="12" BorderBrush="#555555" BorderThickness="2" BoxShadow="0 2 8 0 #40000000">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Информация" 
+                                       FontSize="14" 
+                                       FontWeight="Bold"
+                                       Foreground="#FFFFFF"
+                                       Margin="0,0,0,5"/>
+                            
+                            <Button Content="Показать склад" 
+                                    Command="{Binding ShowWarehouseCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Height="40"
+                                    FontSize="12"
+                                    Background="#03A9F4"
+                                    Foreground="White"
+                                    CornerRadius="5"/>
+                            
+                            <Button Content="Показать баланс" 
+                                    Command="{Binding ShowBalanceCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Height="40"
+                                    FontSize="12"
+                                    Background="#00BCD4"
+                                    Foreground="White"
+                                    CornerRadius="5"/>
+                            
+                            <Button Content="Статистика" 
+                                    Command="{Binding ShowStatisticsCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Height="40"
+                                    FontSize="12"
+                                    Background="#9C27B0"
+                                    Foreground="White"
+                                    CornerRadius="5"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Магазин -->
+                    <Border Background="#2D2D2D" CornerRadius="8" Padding="12" BorderBrush="#555555" BorderThickness="2" BoxShadow="0 2 8 0 #40000000">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Магазин запчастей" 
+                                       FontSize="14" 
+                                       FontWeight="Bold"
+                                       Foreground="#FFFFFF"
+                                       Margin="0,0,0,5"/>
+                            
+                            <Button Content="Магазин запчастей" 
+                                    Command="{Binding ShowShopCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Height="40"
+                                    FontSize="12"
+                                    Background="#FF5722"
+                                    Foreground="White"
+                                    CornerRadius="5"/>
+                            
+                            <Separator Margin="0,5"/>
+                            
+                            <TextBlock Text="Быстрая покупка:" 
+                                       FontSize="12" 
+                                       FontWeight="SemiBold"
+                                       Foreground="#FFFFFF"
+                                       Margin="0,5,0,5"/>
+                            
+                            <TextBox Text="{Binding ShopPartId}" 
+                                     Watermark="ID детали"
+                                     Height="35"
+                                     FontSize="12"
+                                     CornerRadius="5"
+                                     Padding="8,0"/>
+                            
+                            <TextBox Text="{Binding ShopQuantity}" 
+                                     Watermark="Количество"
+                                     Height="35"
+                                     FontSize="12"
+                                     CornerRadius="5"
+                                     Padding="8,0"/>
+                            
+                            <Button Content="Купить" 
+                                    Command="{Binding BuyPartCommand}"
+                                    HorizontalAlignment="Stretch"
+                                    Height="40"
+                                    FontSize="12"
+                                    Background="#FF9800"
+                                    Foreground="White"
+                                    CornerRadius="5"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Выход -->
+                    <Button Content="Выход" 
+                            Command="{Binding ExitCommand}"
+                            HorizontalAlignment="Stretch"
+                            Height="45"
+                            FontSize="13"
+                            Background="#757575"
+                            Foreground="White"
+                            CornerRadius="5"
+                            Margin="0,10,0,0"/>
+                </StackPanel>
+            </ScrollViewer>
+            
+            <!-- Правая панель с выводом информации -->
+            <Border Grid.Column="1" 
+                    Background="#2D2D2D" 
+                    CornerRadius="8" 
+                    Padding="20"
+                    BorderBrush="#555555"
+                    BorderThickness="2"
+                    BoxShadow="0 2 8 0 #40000000">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding OutputLines}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" 
+                                           FontFamily="Consolas, 'Courier New', monospace"
+                                           FontSize="14"
+                                           Foreground="#E0E0E0"
+                                           Margin="0,2"
+                                           TextWrapping="Wrap"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

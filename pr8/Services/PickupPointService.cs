@@ -3,7 +3,7 @@ using pr8.Repositories;
 
 namespace pr8.Services;
 
-public class PickupPointService
+public class PickupPointService : IPickupPointService
 {
     private readonly IPickupPointRepository _pickupPointRepository;
     
@@ -21,25 +21,5 @@ public class PickupPointService
     {
         return _pickupPointRepository.GetById(id);
     }
-    
-    public void DisplayPickupPoints(List<PickupPoint> pickupPoints)
-    {
-        if (pickupPoints.Count == 0)
-        {
-            Console.WriteLine("ПВЗ не найдены");
-            return;
-        }
-        
-        Console.WriteLine("ПУНКТЫ ВЫДАЧИ ЗАКАЗОВ");
-        Console.WriteLine(new string('-', 80));
-        Console.WriteLine($"{"ID",-5} {"Название",-30} {"Адрес"}");
-        Console.WriteLine(new string('-', 80));
-        
-        foreach (var pp in pickupPoints)
-        {
-            Console.WriteLine($"{pp.Id,-5} {pp.Name,-30} {pp.Address}");
-        }
-        
-        Console.WriteLine(new string('-', 80));
-    }
 }
+

@@ -1,9 +1,11 @@
+using System.Security.Cryptography;
+using System.Text;
 using pr8.Models;
 using pr8.Repositories;
 
 namespace pr8.Services;
 
-public class AuthService
+public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
     
@@ -15,85 +17,54 @@ public class AuthService
     public bool Register(string username, string password, string confirmPassword)
     {
         if (string.IsNullOrWhiteSpace(username))
-        {
-            Console.WriteLine("Имя пользователя не может быть пустым");
-            return false;
-        }
+            throw new ArgumentException("Имя пользователя не может быть пустым");
         
-        if (!ValidatePassword(password, confirmPassword))
-        {
-            return false;
-        }
+        if (string.IsNullOrWhiteSpace(password))
+            throw new ArgumentException("Пароль не может быть пустым");
         
-        if (IsUsernameTaken(username))
-        {
-            Console.WriteLine("Пользователь с таким именем уже существует");
-            return false;
-        }
+        if (password != confirmPassword)
+            throw new ArgumentException("Пароли не совпадают");
+        
+        if (_userRepository.Exists(username))
+            throw new InvalidOperationException("Пользователь с таким именем уже существует");
         
         var user = new User
         {
             Username = username,
-            Password = password
+            PasswordHash = HashPassword(password)
         };
         
-        try
-        {
-            _userRepository.Add(user);
-            Console.WriteLine("Регистрация успешна!");
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Ошибка при регистрации: {ex.Message}");
-            return false;
-        }
+        _userRepository.Add(user);
+        return true;
     }
     
     public User? Login(string username, string password)
     {
         if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-        {
-            Console.WriteLine("Имя пользователя и пароль не могут быть пустыми");
             return null;
-        }
         
         var user = _userRepository.GetByUsername(username);
         if (user == null)
-        {
-            Console.WriteLine("Пользователь с таким именем не найден");
             return null;
-        }
         
-        if (user.Password != password)
-        {
-            Console.WriteLine("Неверный пароль");
+        if (!VerifyPassword(password, user.PasswordHash))
             return null;
-        }
         
-        Console.WriteLine($"Добро пожаловать, {user.Username}!");
         return user;
     }
     
-    public bool ValidatePassword(string password, string confirmPassword)
+    public string HashPassword(string password)
     {
-        if (string.IsNullOrWhiteSpace(password))
-        {
-            Console.WriteLine("Пароль не может быть пустым");
-            return false;
-        }
-        
-        if (password != confirmPassword)
-        {
-            Console.WriteLine("Пароли не совпадают");
-            return false;
-        }
-        
-        return true;
+        using var sha256 = SHA256.Create();
+        var bytes = Encoding.UTF8.GetBytes(password);
+        var hash = sha256.ComputeHash(bytes);
+        return Convert.ToBase64String(hash);
     }
     
-    public bool IsUsernameTaken(string username)
+    public bool VerifyPassword(string password, string hash)
     {
-        return _userRepository.GetByUsername(username) != null;
+        var passwordHash = HashPassword(password);
+        return passwordHash == hash;
     }
 }
+

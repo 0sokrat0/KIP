@@ -3,140 +3,99 @@ using pr8.Repositories;
 
 namespace pr8.Services;
 
-public class CartService
+public class CartService : ICartService
 {
     private readonly ICartRepository _cartRepository;
-    private readonly ICartItemRepository _cartItemRepository;
     private readonly IProductRepository _productRepository;
     
-    public CartService(ICartRepository cartRepository, ICartItemRepository cartItemRepository, IProductRepository productRepository)
+    public CartService(ICartRepository cartRepository, IProductRepository productRepository)
     {
         _cartRepository = cartRepository;
-        _cartItemRepository = cartItemRepository;
         _productRepository = productRepository;
+    }
+    
+    public List<CartItem> GetCartItems(int userId)
+    {
+        return _cartRepository.GetByUserId(userId);
     }
     
     public void AddToCart(int userId, int productId, int quantity)
     {
         if (quantity <= 0)
+            throw new ArgumentException("Количество должно быть больше нуля");
+        
+        var product = _productRepository.GetById(productId);
+        if (product == null)
+            throw new KeyNotFoundException("Товар не найден");
+        
+        if (product.Stock < quantity)
+            throw new InvalidOperationException("Недостаточно товара на складе");
+        
+        var existingItem = _cartRepository.GetByUserAndProduct(userId, productId);
+        if (existingItem != null)
         {
-            Console.WriteLine("Количество должно быть больше нуля");
+            var newQuantity = existingItem.Quantity + quantity;
+            if (product.Stock < newQuantity)
+                throw new InvalidOperationException("Недостаточно товара на складе");
+            
+            existingItem.Quantity = newQuantity;
+            _cartRepository.Update(existingItem);
+        }
+        else
+        {
+            var item = new CartItem
+            {
+                UserId = userId,
+                ProductId = productId,
+                Quantity = quantity
+            };
+            _cartRepository.Add(item);
+        }
+    }
+    
+    public void UpdateCartItem(int userId, int productId, int quantity)
+    {
+        if (quantity <= 0)
+        {
+            RemoveFromCart(userId, productId);
             return;
         }
         
         var product = _productRepository.GetById(productId);
         if (product == null)
-        {
-            Console.WriteLine("Товар не найден");
-            return;
-        }
+            throw new KeyNotFoundException("Товар не найден");
         
-        var cart = _cartRepository.GetByUserId(userId);
-        if (cart == null)
-        {
-            cart = new Cart { UserId = userId };
-            _cartRepository.Add(cart);
-        }
+        if (product.Stock < quantity)
+            throw new InvalidOperationException("Недостаточно товара на складе");
         
-        var existingItem = _cartItemRepository.GetByCartIdAndProductId(cart.Id, productId);
-        if (existingItem != null)
-        {
-            existingItem.Quantity += quantity;
-            _cartItemRepository.Update(existingItem);
-            Console.WriteLine($"Товар добавлен в корзину. Всего в корзине: {existingItem.Quantity}");
-        }
-        else
-        {
-            var cartItem = new CartItem
-            {
-                CartId = cart.Id,
-                ProductId = productId,
-                Quantity = quantity
-            };
-            _cartItemRepository.Add(cartItem);
-            Console.WriteLine($"Товар добавлен в корзину");
-        }
-    }
-    
-    public List<CartItem> GetCartItems(int userId)
-    {
-        var cart = _cartRepository.GetByUserId(userId);
-        if (cart == null)
-        {
-            return new List<CartItem>();
-        }
+        var item = _cartRepository.GetByUserAndProduct(userId, productId);
+        if (item == null)
+            throw new KeyNotFoundException("Товар не найден в корзине");
         
-        return _cartItemRepository.GetByCartId(cart.Id);
-    }
-    
-    public void DisplayCart(int userId)
-    {
-        var cartItems = GetCartItems(userId);
-        
-        if (cartItems.Count == 0)
-        {
-            Console.WriteLine("Корзина пуста");
-            return;
-        }
-        
-        Console.WriteLine("КОРЗИНА");
-        Console.WriteLine(new string('-', 80));
-        Console.WriteLine($"{"ID",-5} {"Товар",-30} {"Количество",-15} {"Цена",-15} {"Сумма"}");
-        Console.WriteLine(new string('-', 80));
-        
-        decimal total = 0;
-        foreach (var item in cartItems)
-        {
-            var product = _productRepository.GetById(item.ProductId);
-            if (product != null)
-            {
-                decimal itemTotal = product.Price * item.Quantity;
-                total += itemTotal;
-                Console.WriteLine($"{item.Id,-5} {product.Name,-30} {item.Quantity,-15} {product.Price,-15:F2} руб. {itemTotal:F2} руб.");
-            }
-        }
-        
-        Console.WriteLine(new string('-', 80));
-        Console.WriteLine($"ИТОГО: {total:F2} руб.");
+        item.Quantity = quantity;
+        _cartRepository.Update(item);
     }
     
     public void RemoveFromCart(int userId, int productId)
     {
-        var cart = _cartRepository.GetByUserId(userId);
-        if (cart == null)
+        var item = _cartRepository.GetByUserAndProduct(userId, productId);
+        if (item != null)
         {
-            Console.WriteLine("Корзина не найдена");
-            return;
+            _cartRepository.Delete(item.Id);
         }
-        
-        var cartItem = _cartItemRepository.GetByCartIdAndProductId(cart.Id, productId);
-        if (cartItem == null)
-        {
-            Console.WriteLine("Товар не найден в корзине");
-            return;
-        }
-        
-        _cartItemRepository.Delete(cartItem.Id);
-        Console.WriteLine("Товар удален из корзины");
     }
     
     public void ClearCart(int userId)
     {
-        var cart = _cartRepository.GetByUserId(userId);
-        if (cart == null)
-        {
-            return;
-        }
-        
-        _cartItemRepository.DeleteByCartId(cart.Id);
+        _cartRepository.ClearUserCart(userId);
     }
     
-    public decimal CalculateCartTotal(int userId)
+    public decimal GetCartTotal(int userId)
     {
-        var cartItems = GetCartItems(userId);
+        var items = _cartRepository.GetByUserId(userId);
         decimal total = 0;
         
-        foreach (var item in cartItems)
+        foreach (var item in items)
         {
             var product = _productRepository.GetById(item.ProductId);
             if (product != null)
@@ -148,3 +107,4 @@ public class CartService
         return total;
     }
 }
+

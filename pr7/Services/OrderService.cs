@@ -3,18 +3,18 @@ using pr7.Repositories;
 
 namespace pr7.Services;
 
-public class OrderService
+public class OrderService : IOrderService
 {
     private readonly IOrderRepository _orderRepository;
-    private readonly FinanceService _financeService;
-    private readonly WarehouseService _warehouseService;
+    private readonly IFinanceService _financeService;
+    private readonly IWarehouseService _warehouseService;
     private readonly IPartRepository _partRepository;
     private const decimal FAILURE_PENALTY_MULTIPLIER = 2.0m;
     
     public OrderService(
         IOrderRepository orderRepository,
-        FinanceService financeService,
-        WarehouseService warehouseService,
+        IFinanceService financeService,
+        IWarehouseService warehouseService,
         IPartRepository partRepository)
     {
         _orderRepository = orderRepository;

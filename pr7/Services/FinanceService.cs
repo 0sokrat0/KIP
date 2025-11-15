@@ -2,7 +2,7 @@ using pr7.Repositories;
 
 namespace pr7.Services;
 
-public class FinanceService
+public class FinanceService : IFinanceService
 {
     private readonly ICarServiceRepository _carServiceRepository;
     private const decimal PENALTY_AMOUNT = 500.00m;

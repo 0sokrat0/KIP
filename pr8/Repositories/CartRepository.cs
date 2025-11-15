@@ -13,83 +13,92 @@ public class CartRepository : ICartRepository
         _dbContext = dbContext;
     }
     
-    public Cart? GetByUserId(int userId)
+    public List<CartItem> GetByUserId(int userId)
     {
+        var items = new List<CartItem>();
+        
         using var connection = _dbContext.GetConnection();
         connection.Open();
         
         using var command = connection.CreateCommand();
-        command.CommandText = "SELECT Id, UserId FROM Carts WHERE UserId = @UserId";
+        command.CommandText = "SELECT Id, UserId, ProductId, Quantity FROM CartItems WHERE UserId = @UserId";
         command.Parameters.AddWithValue("@UserId", userId);
         
         using var reader = command.ExecuteReader();
-        if (reader.Read())
+        while (reader.Read())
         {
-            return new Cart
+            items.Add(new CartItem
             {
                 Id = reader.GetInt32(0),
-                UserId = reader.GetInt32(1)
-            };
+                UserId = reader.GetInt32(1),
+                ProductId = reader.GetInt32(2),
+                Quantity = reader.GetInt32(3)
+            });
         }
         
-        return null;
+        return items;
     }
     
-    public Cart? GetById(int id)
+    public CartItem? GetByUserAndProduct(int userId, int productId)
     {
         using var connection = _dbContext.GetConnection();
         connection.Open();
         
         using var command = connection.CreateCommand();
-        command.CommandText = "SELECT Id, UserId FROM Carts WHERE Id = @Id";
-        command.Parameters.AddWithValue("@Id", id);
+        command.CommandText = "SELECT Id, UserId, ProductId, Quantity FROM CartItems WHERE UserId = @UserId AND ProductId = @ProductId";
+        command.Parameters.AddWithValue("@UserId", userId);
+        command.Parameters.AddWithValue("@ProductId", productId);
         
         using var reader = command.ExecuteReader();
         if (reader.Read())
         {
-            return new Cart
+            return new CartItem
             {
                 Id = reader.GetInt32(0),
-                UserId = reader.GetInt32(1)
+                UserId = reader.GetInt32(1),
+                ProductId = reader.GetInt32(2),
+                Quantity = reader.GetInt32(3)
             };
         }
         
         return null;
     }
     
-    public void Add(Cart cart)
+    public void Add(CartItem item)
     {
+        if (item.Quantity <= 0)
+            throw new ArgumentException("Количество должно быть больше нуля");
+        
         using var connection = _dbContext.GetConnection();
         connection.Open();
         
         using var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO Carts (UserId) VALUES (@UserId)";
-        command.Parameters.AddWithValue("@UserId", cart.UserId);
+        command.CommandText = "INSERT INTO CartItems (UserId, ProductId, Quantity) VALUES (@UserId, @ProductId, @Quantity)";
+        command.Parameters.AddWithValue("@UserId", item.UserId);
+        command.Parameters.AddWithValue("@ProductId", item.ProductId);
+        command.Parameters.AddWithValue("@Quantity", item.Quantity);
         
-        try
-        {
-            command.ExecuteNonQuery();
-            command.CommandText = "SELECT last_insert_rowid()";
-            cart.Id = Convert.ToInt32(command.ExecuteScalar());
-        }
-        catch (SqliteException ex) when (ex.SqliteErrorCode == 19)
-        {
-            throw new ArgumentException("Корзина для этого пользователя уже существует");
-        }
+        command.ExecuteNonQuery();
+        
+        command.CommandText = "SELECT last_insert_rowid()";
+        item.Id = Convert.ToInt32(command.ExecuteScalar());
     }
     
-    public void Update(Cart cart)
+    public void Update(CartItem item)
     {
+        if (item.Quantity <= 0)
+            throw new ArgumentException("Количество должно быть больше нуля");
+        
         using var connection = _dbContext.GetConnection();
         connection.Open();
         
         using var command = connection.CreateCommand();
-        command.CommandText = "UPDATE Carts SET UserId = @UserId WHERE Id = @Id";
-        command.Parameters.AddWithValue("@Id", cart.Id);
-        command.Parameters.AddWithValue("@UserId", cart.UserId);
+        command.CommandText = "UPDATE CartItems SET Quantity = @Quantity WHERE Id = @Id";
+        command.Parameters.AddWithValue("@Id", item.Id);
+        command.Parameters.AddWithValue("@Quantity", item.Quantity);
         
         if (command.ExecuteNonQuery() == 0)
-            throw new KeyNotFoundException($"Корзина с Id {cart.Id} не найдена");
+            throw new KeyNotFoundException($"Элемент корзины с Id {item.Id} не найден");
     }
     
     public void Delete(int id)
@@ -98,11 +107,23 @@ public class CartRepository : ICartRepository
         connection.Open();
         
         using var command = connection.CreateCommand();
-        command.CommandText = "DELETE FROM Carts WHERE Id = @Id";
+        command.CommandText = "DELETE FROM CartItems WHERE Id = @Id";
         command.Parameters.AddWithValue("@Id", id);
         
         if (command.ExecuteNonQuery() == 0)
-            throw new KeyNotFoundException($"Корзина с Id {id} не найдена");
+            throw new KeyNotFoundException($"Элемент корзины с Id {id} не найден");
+    }
+    
+    public void ClearUserCart(int userId)
+    {
+        using var connection = _dbContext.GetConnection();
+        connection.Open();
+        
+        using var command = connection.CreateCommand();
+        command.CommandText = "DELETE FROM CartItems WHERE UserId = @UserId";
+        command.Parameters.AddWithValue("@UserId", userId);
+        
+        command.ExecuteNonQuery();
     }
 }
 

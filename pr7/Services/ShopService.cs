@@ -3,16 +3,16 @@ using pr7.Repositories;
 
 namespace pr7.Services;
 
-public class ShopService
+public class ShopService : IShopService
 {
     private readonly IPartRepository _partRepository;
-    private readonly WarehouseService _warehouseService;
-    private readonly FinanceService _financeService;
+    private readonly IWarehouseService _warehouseService;
+    private readonly IFinanceService _financeService;
     
     public ShopService(
         IPartRepository partRepository,
-        WarehouseService warehouseService,
-        FinanceService financeService)
+        IWarehouseService warehouseService,
+        IFinanceService financeService)
     {
         _partRepository = partRepository;
         _warehouseService = warehouseService;
